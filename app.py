@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 import os
+import logging
 
 from gateway import \
     ExceptionHandling
@@ -12,6 +13,10 @@ app_context.push()
 
 cors = CORS(app)
 
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
+logger = logging.getLogger(__name__)
+
+# URL to Test
 url_base_incidents = 'http://localhost:5003'
 url_base_auth_api = 'http://localhost:5002'
 
@@ -21,8 +26,8 @@ if os.environ.get("URL_BASE_INCIDENTS"):
 if os.environ.get("URL_BASE_AUTH_API"):
     url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
 
-print("URL BASE INCIDENTS: " + url_base_incidents)
-print("URL BASE AUTH API: " + url_base_auth_api)
+logger.info(f"URL BASE INCIDENTS: {url_base_incidents}")
+logger.info(f"URL BASE AUTH API: {url_base_auth_api}")
 
 EVENT_INCIDENTS = "incident"
 

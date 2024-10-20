@@ -6,7 +6,8 @@ if os.environ.get('AWS_REGION'):
     region = os.environ.get('AWS_REGION')
     sqs = boto3.client('sqs', region_name=region)
 else:
-    raise Exception("Region must be defined")
+    print("Region must be defined")
+    #raise Exception("Region must be defined")
 
 if os.environ.get('SQS_QUEUE_URL'):
     queue_url = os.environ.get('SQS_QUEUE_URL')
