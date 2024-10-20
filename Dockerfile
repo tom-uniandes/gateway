@@ -4,10 +4,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install -r requirements.txt
+RUN pip install pipenv && pipenv install
 
 EXPOSE 5000
 
-ENV FLASK_APP=app.py
-
-CMD ["flask", "run", "--port", "5000", "--host=0.0.0.0"]
+ENTRYPOINT ["pipenv", "run", "python", "app.py"]
