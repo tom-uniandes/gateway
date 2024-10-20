@@ -16,10 +16,10 @@ cors = CORS(app)
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
-# URL to Test in local
+# URL to Test in local with docker
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
-url_base_auth_api = 'http://localhost:5002'
-url_base_incidents = 'http://localhost:5003'
+url_base_auth_api = 'http://auth-api-microservice:5002'
+url_base_incidents = 'http://incidents-microservice:5003'
 
 # Get URL to production
 if os.environ.get("URL_BASE_INCIDENTS"):
@@ -57,6 +57,10 @@ def post_login():
 @app.route('/clients/create_client', methods=['POST'])
 def post_create_client():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + "/clients/create_client", COMUNNICATION_SYNC)
+ 
+@app.route('/clients/get_client/<id>', methods=['GET'])
+def get_client(id):
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/get_client/{id}", COMUNNICATION_SYNC)
  
 
 # --------------------------------------------
