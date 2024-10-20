@@ -10,5 +10,5 @@ services:
     container_name: gateway
 
 networks:
-  shared-network:
+  abc-call-network:
     external: true
