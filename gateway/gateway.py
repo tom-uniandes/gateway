@@ -25,8 +25,12 @@ class ExceptionHandling():
 
     def communicate_to_incidents(self, event, endpoint):
         method = request.method
-        body = request.get_json()
         params = request.args
+
+        try:
+            body = request.get_json()
+        except Exception as e:
+            body = {}
 
         if method == "GET":
             response = requests.request(
@@ -53,8 +57,12 @@ class ExceptionHandling():
 
     def communicate_sync_microservice(self, endpoint):
         method = request.method
-        body = request.get_json()
         params = request.args
+
+        try:
+            body = request.get_json()
+        except Exception as e:
+            body = {}
 
         response = requests.request(
             method = method,
