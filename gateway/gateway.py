@@ -36,7 +36,7 @@ class ExceptionHandling():
                 data = request.get_data(),
                 params = params,
                 json = body,
-                timeout=1
+                timeout=20
             )
             logger.info(f"Response: {response}")
         else:
@@ -63,7 +63,7 @@ class ExceptionHandling():
             data = request.get_data(),
             params = params,
             json = body,
-            timeout=1
+            timeout=20
         )
         logger.info(f"Response: {response}")
         return response

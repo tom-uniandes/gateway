@@ -58,7 +58,7 @@ def post_login():
 def post_create_client():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + "/clients/create_client", COMUNNICATION_SYNC)
  
-@app.route('/clients/get_client/<id>', methods=['POST'])
+@app.route('/clients/get_client/<id>', methods=['GET'])
 def get_client(id):
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/get_client/{id}", COMUNNICATION_SYNC)
  
