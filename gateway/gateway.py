@@ -53,8 +53,12 @@ class ExceptionHandling():
 
     def communicate_sync_microservice(self, endpoint):
         method = request.method
-        body = request.get_json()
         params = request.args
+
+        try:
+            body = request.get_json()
+        except Exception as e:
+            body = {}
 
         response = requests.request(
             method = method,
