@@ -17,7 +17,7 @@ logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
 # URL to Test in local
-url_base_manejo_clientes = 'http://localhost:5001'
+url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://localhost:5002'
 url_base_incidents = 'http://localhost:5003'
 
@@ -85,4 +85,4 @@ def ping():
     return "pong", 200
 
 if __name__ == '__main__':
-    app.run(port=4000)
+    app.run(host="0.0.0.0", port=5000)
