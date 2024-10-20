@@ -16,18 +16,24 @@ cors = CORS(app)
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger(__name__)
 
-# URL to Test
-url_base_incidents = 'http://localhost:5003'
+# URL to Test in local
+url_base_manejo_clientes = 'http://localhost:5001'
 url_base_auth_api = 'http://localhost:5002'
+url_base_incidents = 'http://localhost:5003'
 
+# Get URL to production
 if os.environ.get("URL_BASE_INCIDENTS"):
     url_base_incidents = os.environ.get("URL_BASE_INCIDENTS")
 
 if os.environ.get("URL_BASE_AUTH_API"):
     url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
 
+if os.environ.get("URL_BASE_MANEJO_CLIENTES"):
+    url_base_auth_api = os.environ.get("URL_BASE_MANEJO_CLIENTES")
+
 logger.info(f"URL BASE INCIDENTS: {url_base_incidents}")
 logger.info(f"URL BASE AUTH API: {url_base_auth_api}")
+logger.info(f"URL BASE MANEJO CLIENTES: {url_base_manejo_clientes}")
 
 EVENT_INCIDENTS = "incident"
 
@@ -44,7 +50,14 @@ def post_register():
 @app.route('/auth/login', methods=['POST'])
 def post_login():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_auth_api + "/auth/login", COMUNNICATION_SYNC)
-    
+
+# --------------------------------------------
+# Routes to microservice manejo clientes
+#---------------------------------------------    
+@app.route('/clients/create_client', methods=['POST'])
+def post_create_client():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + "/clients/create_client", COMUNNICATION_SYNC)
+ 
 
 # --------------------------------------------
 # Routes to microservice incidents

@@ -51,7 +51,7 @@ class ExceptionHandling():
         
         return response
 
-    def communicate_sync_microservice(endpoint):
+    def communicate_sync_microservice(self, endpoint):
         method = request.method
         body = request.get_json()
         params = request.args
@@ -71,10 +71,10 @@ class ExceptionHandling():
     def communicate_to_microservice(self, endpoint, communication, event=None):
         try:
             if communication == "sync":
-                response = self.communicate_sync_microservice(event, endpoint)
+                response = self.communicate_sync_microservice(self, endpoint)
 
             if communication == "async_incidents":
-                response = self.communicate_to_incidents(event, endpoint)
+                response = self.communicate_to_incidents(self, event, endpoint)
         
             return json.loads(response.content), response.status_code
         except requests.exceptions.Timeout as e:
