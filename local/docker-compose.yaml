@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  web:
+    build: ..
+    ports:
+      - "4000:4000"
+    environment:
+      - FLASK_ENV=development
+    container_name: gateway

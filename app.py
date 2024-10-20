@@ -1,0 +1,70 @@
+from flask import Flask
+from flask_cors import CORS
+import os
+
+from gateway import \
+    ExceptionHandling
+
+app = Flask(__name__)
+
+app_context = app.app_context()
+app_context.push()
+
+cors = CORS(app)
+
+url_base_incidents = 'http://localhost:5003'
+url_base_auth_api = 'http://localhost:5002'
+
+if os.environ.get("URL_BASE_INCIDENTS"):
+    url_base_incidents = os.environ.get("URL_BASE_INCIDENTS")
+
+if os.environ.get("URL_BASE_AUTH_API"):
+    url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
+
+print("URL BASE INCIDENTS: " + url_base_incidents)
+print("URL BASE AUTH API: " + url_base_auth_api)
+
+EVENT_INCIDENTS = "incident"
+
+COMUNNICATION_INCIDENT = "async_incidents"
+COMUNNICATION_SYNC = "sync"
+
+# --------------------------------------------
+# Routes to microservice auth-api
+#---------------------------------------------
+@app.route('/auth/register', methods=['POST'])
+def post_register():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_auth_api + "/auth/register", COMUNNICATION_SYNC)
+    
+@app.route('/auth/login', methods=['POST'])
+def post_login():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_auth_api + "/auth/login", COMUNNICATION_SYNC)
+    
+
+# --------------------------------------------
+# Routes to microservice incidents
+#---------------------------------------------
+@app.route('/report-incidents', methods=['GET'])
+def get_incidents():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + "/incidents", COMUNNICATION_INCIDENT)
+    
+@app.route('/report-incident', methods=['POST'])
+def post_incident():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + "/incident", COMUNNICATION_INCIDENT)
+    
+@app.route('/report-incident/<id>', methods=['GET','PUT','DELETE'])
+def actions_incident(id):
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incident/{id}", COMUNNICATION_INCIDENT)
+    
+
+@app.errorhandler(404)
+def resource_not_found(error):
+    return ExceptionHandling.get_message_not_found_url(ExceptionHandling)
+
+# Ping endpoint
+@app.route('/ping', methods=['GET'])
+def ping():
+    return "pong", 200
+
+if __name__ == '__main__':
+    app.run(port=4000)
