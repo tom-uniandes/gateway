@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: ..
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+    container_name: gateway
+
+networks:
+  abc-call-network:
+    external: true
