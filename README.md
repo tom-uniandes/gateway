@@ -10,3 +10,4 @@ Para ejecutar el gateway desde local usando un ambiente de Docker solo se necesi
 
 ## Otra alternativa es ejecutar el comando de docker compose estando dentro de la carpeta local
         docker compose up -d
+        
