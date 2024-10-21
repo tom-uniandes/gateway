@@ -61,7 +61,10 @@ def post_create_client():
 @app.route('/clients/get_client/<id>', methods=['GET'])
 def get_client(id):
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/get_client/{id}", COMUNNICATION_SYNC)
- 
+
+@app.route('/clients/update_client_plan', methods=['PUT'])
+def update_client_plan():
+     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/update_client_plan", COMUNNICATION_SYNC)
 
 # --------------------------------------------
 # Routes to microservice incidents
