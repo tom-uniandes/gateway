@@ -29,7 +29,7 @@ if os.environ.get("URL_BASE_AUTH_API"):
     url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
 
 if os.environ.get("URL_BASE_MANEJO_CLIENTES"):
-    url_base_auth_api = os.environ.get("URL_BASE_MANEJO_CLIENTES")
+    url_base_manejo_clientes = os.environ.get("URL_BASE_MANEJO_CLIENTES")
 
 logger.info(f"URL BASE INCIDENTS: {url_base_incidents}")
 logger.info(f"URL BASE AUTH API: {url_base_auth_api}")
