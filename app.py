@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 # URL to Test in local with docker
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
-url_base_incidents = 'http://incidents-microservice:5003'
+url_base_incidents = 'http://incidents-microservice:5007'
 url_base_chatbot_api = 'http://chatbot-api:5003'
 
 # Get URL to production
