@@ -91,11 +91,11 @@ def actions_incident(id):
 #---------------------------------------------
 @app.route('/getnode', methods=['GET'])
 def get_node():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + "/chatbot/getnode", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_INCIDENT)
 
 @app.route('/getsolutions', methods=['GET'])
 def get_node():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + "/chatbot/getsolutions", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_INCIDENT)
 
 @app.errorhandler(404)
 def resource_not_found(error):
