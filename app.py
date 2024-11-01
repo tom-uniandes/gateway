@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 # URL to Test in local with docker
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
-url_base_incidents = 'http://incidents-microservice:5007'
-url_base_chatbot_api = 'http://chatbot-api:5003'
+url_base_incidents = 'http://incidents-microservice:5003'
+url_base_chatbot_api = 'http://chatbot-api:5008'
 
 # Get URL to production
 if os.environ.get("URL_BASE_INCIDENTS"):
@@ -119,7 +119,7 @@ def get_node():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_INCIDENT)
 
 @app.route('/getsolutions', methods=['GET'])
-def get_node():
+def get_solutions():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_INCIDENT)
 
 # Error handler
