@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
 url_base_incidents = 'http://incidents-microservice:5003'
-url_base_chatbot_api = 'http://chatbot-api:5003'
+url_base_chatbot_api = 'http://chatbot-api:5008/api'
 
 # Get URL to production
 if os.environ.get("URL_BASE_INCIDENTS"):
@@ -29,7 +29,9 @@ if os.environ.get("URL_BASE_INCIDENTS"):
 if os.environ.get("URL_BASE_AUTH_API"):
     url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
 
+incidents_on_local = True
 if os.environ.get("URL_BASE_MANEJO_CLIENTES"):
+    incidents_on_local = False
     url_base_manejo_clientes = os.environ.get("URL_BASE_MANEJO_CLIENTES")
 
 if os.environ.get("URL_BASE_CHATBOT_API"):
@@ -74,17 +76,40 @@ def update_client_plan():
 # --------------------------------------------
 # Routes to microservice incidents
 #---------------------------------------------
-@app.route('/report-incidents', methods=['GET'])
-def get_incidents():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + "/incidents", COMUNNICATION_INCIDENT)
+@app.route('/incidents/get_incidents/<client>', methods=['GET'])
+def get_incidents(client):
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{client}", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{client}", COMUNNICATION_INCIDENT)
+
+@app.route('/incidents/get_user/<id>/<client>', methods=['GET'])
+def get_user(id, client):
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_user/{id}/{client}", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_user/{id}/{client}", COMUNNICATION_INCIDENT)
+
+@app.route('/incidents/get_incident/<id>/<client>', methods=['GET'])
+def get_incident(id, client):
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{id}/{client}", COMUNNICATION_INCIDENT)
+
+@app.route('/incidents/create_user', methods=['POST'])
+def create_user():
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_user", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_user", COMUNNICATION_INCIDENT)
     
-@app.route('/report-incident', methods=['POST'])
-def post_incident():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + "/incident", COMUNNICATION_INCIDENT)
-    
-@app.route('/report-incident/<id>', methods=['GET','PUT','DELETE'])
-def actions_incident(id):
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incident/{id}", COMUNNICATION_INCIDENT)
+@app.route('/incidents/create_incident', methods=['POST'])
+def create_incident():
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_incident", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_incident", COMUNNICATION_INCIDENT)
 
 # --------------------------------------------
 # Routes to chatbot api
@@ -94,9 +119,10 @@ def get_node():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_INCIDENT)
 
 @app.route('/getsolutions', methods=['GET'])
-def get_node():
+def get_solutions():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_INCIDENT)
 
+# Error handler
 @app.errorhandler(404)
 def resource_not_found(error):
     return ExceptionHandling.get_message_not_found_url(ExceptionHandling)
