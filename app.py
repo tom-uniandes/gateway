@@ -104,7 +104,7 @@ def get_incident(id, client):
     if incidents_on_local:
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_SYNC)
     else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{id}/{client}", COMUNNICATION_INCIDENT)
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_INCIDENT)
 
 @app.route('/incidents/create_user', methods=['POST'])
 def create_user():
