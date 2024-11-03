@@ -40,4 +40,4 @@ class Queue():
                 body
             )
         )
-        return response
+        return response, 204

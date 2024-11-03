@@ -44,10 +44,9 @@ class ExceptionHandling():
             )
             logger.info(f"Response: {response}")
         else:
-            response = Queue.send_message_queue(self, event, endpoint, method, params, body)
+            response = Queue.send_message_queue(self, event, endpoint, method, params, body)    
             logger.info(f"Response: {response}")
-            return {}, 204
-
+            return jsonify(response)
         status_code = response.status_code
 
         if status_code >= 400:
