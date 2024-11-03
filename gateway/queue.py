@@ -40,4 +40,4 @@ class Queue():
                 body
             )
         )
-        return response, 204
+        return {"message": "Te comunicaremos a tu email cuando el incidente se haya creado"}, 204
