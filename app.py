@@ -58,6 +58,15 @@ def post_register():
 def post_login():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_auth_api + "/auth/login", COMUNNICATION_SYNC)
 
+@app.route('/auth/logout', methods=['POST'])
+def post_logout():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_auth_api + "/auth/logout", COMUNNICATION_SYNC)
+
+@app.route('/auth/verify-authorization', methods=['GET'])
+def get_verify_authorization():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_auth_api + "/auth/verify-authorization", COMUNNICATION_SYNC)
+
+
 # --------------------------------------------
 # Routes to microservice manejo clientes
 #---------------------------------------------    
