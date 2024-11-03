@@ -89,6 +89,8 @@ class ExceptionHandling():
                 # If response is a custom dictionary
                 elif isinstance(response, dict):
                     return response, 200
+                elif response.is_json:
+                    return response.get_json(), response.status_code
                 else:
                     # Handle unexpected response types
                     logger.error("Unexpected response type")
