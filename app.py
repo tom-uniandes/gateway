@@ -122,11 +122,11 @@ def create_incident():
 #---------------------------------------------
 @app.route('/getnode', methods=['GET'])
 def get_node():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_SYNC)
 
 @app.route('/getsolutions', methods=['GET'])
 def get_solutions():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_SYNC)
 
 # Error handler
 @app.errorhandler(404)
