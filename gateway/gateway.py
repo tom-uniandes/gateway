@@ -83,7 +83,16 @@ class ExceptionHandling():
 
             if communication == "async_incidents":
                 response = self.communicate_to_incidents(self, event, endpoint)
-                return response.get_json(), response.status_code
+                # If response is a requests.Response object
+                if isinstance(response, requests.Response):
+                    return response.json(), response.status_code
+                # If response is a custom dictionary
+                elif isinstance(response, dict):
+                    return response, 200
+                else:
+                    # Handle unexpected response types
+                    logger.error("Unexpected response type")
+                    return {"message": "Unexpected response type"}, 500
         
         except requests.exceptions.Timeout as e:
             logger.info("Log error: " + str(e))
