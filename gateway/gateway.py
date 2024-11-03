@@ -83,7 +83,7 @@ class ExceptionHandling():
 
             if communication == "async_incidents":
                 response = self.communicate_to_incidents(self, event, endpoint)
-                return response
+                return response.get_json(), response.status_code
         
         except requests.exceptions.Timeout as e:
             logger.info("Log error: " + str(e))
