@@ -108,17 +108,14 @@ def get_incident(id, client):
 
 @app.route('/incidents/create_user', methods=['POST'])
 def create_user():
-    if incidents_on_local:
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_user", COMUNNICATION_SYNC)
-    else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_user", COMUNNICATION_INCIDENT)
     
 @app.route('/incidents/create_incident', methods=['POST'])
 def create_incident():
     if incidents_on_local:
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_incident", COMUNNICATION_SYNC)
     else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_incident", COMUNNICATION_INCIDENT)
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_incident", COMUNNICATION_INCIDENT, EVENT_INCIDENTS)
 
 # --------------------------------------------
 # Routes to chatbot api
