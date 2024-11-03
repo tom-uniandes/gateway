@@ -79,11 +79,12 @@ class ExceptionHandling():
         try:
             if communication == "sync":
                 response = self.communicate_sync_microservice(self, endpoint)
+                return json.loads(response.content), response.status_code
 
             if communication == "async_incidents":
                 response = self.communicate_to_incidents(self, event, endpoint)
+                return response
         
-            return json.loads(response.content), response.status_code
         except requests.exceptions.Timeout as e:
             logger.info("Log error: " + str(e))
             status_code = 504
