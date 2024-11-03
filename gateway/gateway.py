@@ -46,7 +46,7 @@ class ExceptionHandling():
         else:
             response = Queue.send_message_queue(self, event, endpoint, method, params, body)
             logger.info(f"Response: {response}")
-            return {}, 204
+            return jsonify({"message": "Mensaje encolado"}), 204
 
         status_code = response.status_code
 
