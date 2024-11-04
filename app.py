@@ -21,6 +21,7 @@ url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
 url_base_incidents = 'http://incidents-microservice:5003'
 url_base_chatbot_api = 'http://chatbot-api:5008/api'
+url_base_analitica = 'http://analitica-microservice:5005'
 
 # Get URL to production
 if os.environ.get("URL_BASE_INCIDENTS"):
@@ -37,10 +38,14 @@ if os.environ.get("URL_BASE_MANEJO_CLIENTES"):
 if os.environ.get("URL_BASE_CHATBOT_API"):
     url_base_chatbot_api = os.environ.get("URL_BASE_CHATBOT_API")
 
+if os.environ.get("URL_BASE_ANALITICA"):
+    url_base_analitica = os.environ.get("URL_BASE_ANALITICA")
+
 logger.info(f"URL BASE INCIDENTS: {url_base_incidents}")
 logger.info(f"URL BASE AUTH API: {url_base_auth_api}")
 logger.info(f"URL BASE MANEJO CLIENTES: {url_base_manejo_clientes}")
 logger.info(f"URL BASE CHATBOT API: {url_base_chatbot_api}")
+logger.info(f"URL BASE ANALITICA: {url_base_analitica}")
 
 EVENT_INCIDENTS = "incident"
 
@@ -128,6 +133,14 @@ def get_node():
 def get_solutions():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_SYNC)
 
+# --------------------------------------------
+# Routes to microservice analitica
+# ---------------------------------------------
+@app.route('/analitica/get_incidents', methods=['GET'])
+def get_incidents_analitica():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling,
+                                                         url_base_analitica + f"/analitica/get_incidents",
+                                                         COMUNNICATION_SYNC)
 # Error handler
 @app.errorhandler(404)
 def resource_not_found(error):
