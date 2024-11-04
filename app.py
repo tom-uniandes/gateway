@@ -138,8 +138,9 @@ def get_solutions():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_SYNC)
 
 # --------------------------------------------
-# Routes to microservice analitica
+# Routes to microservice analitica de datos
 # ---------------------------------------------
+
 @app.route('/analitica/get_incidents/<company>', methods=['GET'])
 def get_incidents_analitica(company):
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling,url_base_analitica + f"/analitica/get_incidents/{company}",COMUNNICATION_SYNC)
