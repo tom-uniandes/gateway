@@ -119,10 +119,7 @@ def create_incident():
     
 @app.route('/incidents/update_incident_response', methods=['PUT'])
 def update_incident_response():
-    if incidents_on_local:
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_response", COMUNNICATION_SYNC)
-    else:
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_response", COMUNNICATION_INCIDENT, EVENT_INCIDENTS)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_response", COMUNNICATION_SYNC)
 
 # --------------------------------------------
 # Routes to chatbot api
