@@ -138,9 +138,7 @@ def get_solutions():
 # ---------------------------------------------
 @app.route('/analitica/get_incidents', methods=['GET'])
 def get_incidents_analitica():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling,
-                                                         url_base_analitica + f"/analitica/get_incidents",
-                                                         COMUNNICATION_SYNC)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling,url_base_analitica + f"/analitica/get_incidents",COMUNNICATION_SYNC)
 # Error handler
 @app.errorhandler(404)
 def resource_not_found(error):
