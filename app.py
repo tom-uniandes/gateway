@@ -111,6 +111,10 @@ def get_incident(id, client):
     else: 
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_INCIDENT)
 
+@app.route('/incidents/search_incident', methods=['POST'])
+def search_incident():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/search_incident", COMUNNICATION_SYNC)
+
 @app.route('/incidents/create_user', methods=['POST'])
 def create_user():
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/create_user", COMUNNICATION_SYNC)
