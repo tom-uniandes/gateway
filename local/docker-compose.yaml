@@ -8,6 +8,8 @@ services:
     environment:
       - FLASK_ENV=development
     container_name: gateway
+    networks:
+      - abc-call-network
 
 networks:
   abc-call-network:

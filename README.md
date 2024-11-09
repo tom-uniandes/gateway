@@ -1,13 +1,13 @@
-# Experimento-gateway
+# Gateway
 
 Para ejecutar el gateway desde local usando un ambiente de Docker solo se necesita seguir los siguientes pasos:
 
-## Construir la imagen teniendo habillitad y corriendo el demonio de docker con Docker desktop
-        docker build -t gateway .
+## Crear la network donde van a correr los contenedores en local con docker
+        docker network create abc-call-network
 
-## Ejecutar el comando para correr el gateway
-        docker run --name gateway -p 5000:5000 gateway
+## En el proyecto de gateway entrar a la carpeta local
+        cd local
 
-## Otra alternativa es ejecutar el comando de docker compose estando dentro de la carpeta local
+## Ejecutar el comando
         docker compose up -d
-        
+

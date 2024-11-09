@@ -44,10 +44,9 @@ class ExceptionHandling():
             )
             logger.info(f"Response: {response}")
         else:
-            response = Queue.send_message_queue(self, event, endpoint, method, params, body)
+            response = Queue.send_message_queue(self, event, endpoint, method, params, body)    
             logger.info(f"Response: {response}")
-            return {}, 204
-
+            return jsonify(response)
         status_code = response.status_code
 
         if status_code >= 400:
@@ -80,11 +79,23 @@ class ExceptionHandling():
         try:
             if communication == "sync":
                 response = self.communicate_sync_microservice(self, endpoint)
+                return json.loads(response.content), response.status_code
 
             if communication == "async_incidents":
                 response = self.communicate_to_incidents(self, event, endpoint)
+                # If response is a requests.Response object
+                if isinstance(response, requests.Response):
+                    return response.json(), response.status_code
+                # If response is a custom dictionary
+                elif isinstance(response, dict):
+                    return response, 200
+                elif response.is_json:
+                    return response.get_json(), response.status_code
+                else:
+                    # Handle unexpected response types
+                    logger.error("Unexpected response type")
+                    return {"message": "Unexpected response type"}, 500
         
-            return json.loads(response.content), response.status_code
         except requests.exceptions.Timeout as e:
             logger.info("Log error: " + str(e))
             status_code = 504
