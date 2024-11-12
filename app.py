@@ -111,9 +111,20 @@ def get_incident(id, client):
     else: 
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_INCIDENT)
 
+@app.route('/incidents/public/get_incident/<id>', methods=['GET'])
+def get_incident_public(id):
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_INCIDENT)
+
 @app.route('/incidents/search_incident', methods=['POST'])
 def search_incident():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/search_incident", COMUNNICATION_SYNC)
+
+@app.route('/incidents/public/search_incident', methods=['POST'])
+def search_incident_public():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/search_incident", COMUNNICATION_SYNC)
 
 @app.route('/incidents/create_user', methods=['POST'])
 def create_user():
