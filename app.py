@@ -144,13 +144,13 @@ def update_incident_response():
 # --------------------------------------------
 # Routes to chatbot api
 #---------------------------------------------
-@app.route('/getnode', methods=['GET'])
+@app.route('/chatbot/getnode', methods=['GET'])
 def get_node():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_SYNC)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/chatbot/getnode", COMUNNICATION_SYNC)
 
-@app.route('/getsolutions', methods=['GET'])
+@app.route('/chatbot/getsolutions', methods=['GET'])
 def get_solutions():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_SYNC)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/chatbot/getsolutions", COMUNNICATION_SYNC)
 
 # --------------------------------------------
 # Routes to microservice analitica de datos
