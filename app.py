@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
 url_base_incidents = 'http://incidents-microservice:5003'
-url_base_chatbot_api = 'http://chatbot-api:5008/api'
+url_base_chatbot_api = 'http://chatbot-api:5008'
 url_base_analitica = 'http://analitica-microservice:5005'
 
 # Get URL to production
@@ -144,6 +144,18 @@ def update_incident_response():
 @app.route('/incidents/update_incident_agent', methods=['PUT'])
 def update_incident_agent():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_agent", COMUNNICATION_SYNC)
+
+@app.route('/incidents/mobile/search_incident', methods=['POST'])
+def search_incident_mobile():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/mobile/search_incident", COMUNNICATION_SYNC)
+
+@app.route('/incidents/mobile/create_incident', methods=['POST'])
+def create_incident_mobile():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/mobile/create_incident", COMUNNICATION_SYNC)
+
+@app.route('/incidents/mobile/create_user', methods=['POST'])
+def create_user_mobile():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/mobile/create_user", COMUNNICATION_SYNC)
 
 # --------------------------------------------
 # Routes to chatbot api
