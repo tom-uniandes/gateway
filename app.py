@@ -141,6 +141,10 @@ def create_incident():
 def update_incident_response():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_response", COMUNNICATION_SYNC)
 
+@app.route('/incidents/update_incident_agent', methods=['PUT'])
+def update_incident_agent():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_agent", COMUNNICATION_SYNC)
+
 # --------------------------------------------
 # Routes to chatbot api
 #---------------------------------------------
