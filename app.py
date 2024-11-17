@@ -145,6 +145,18 @@ def update_incident_response():
 def update_incident_agent():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_agent", COMUNNICATION_SYNC)
 
+@app.route('/incidents/mobile/search_incident', methods=['POST'])
+def search_incident_mobile():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/mobile/search_incident", COMUNNICATION_SYNC)
+
+@app.route('/incidents/mobile/create_incident', methods=['POST'])
+def create_incident_mobile():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/mobile/create_incident", COMUNNICATION_SYNC)
+
+@app.route('/incidents/mobile/create_user', methods=['POST'])
+def create_user_mobile():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/mobile/create_user", COMUNNICATION_SYNC)
+
 # --------------------------------------------
 # Routes to chatbot api
 #---------------------------------------------
