@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
 url_base_incidents = 'http://incidents-microservice:5003'
-url_base_chatbot_api = 'http://chatbot-api:5008/api'
+url_base_chatbot_api = 'http://chatbot-api:5008'
 url_base_analitica = 'http://analitica-microservice:5005'
 
 # Get URL to production
