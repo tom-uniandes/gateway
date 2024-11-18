@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 url_base_manejo_clientes = 'http://clientes-microservice:5001'
 url_base_auth_api = 'http://auth-api-microservice:5002'
 url_base_incidents = 'http://incidents-microservice:5003'
-url_base_chatbot_api = 'http://chatbot-api:5008/api'
+url_base_chatbot_api = 'http://chatbot-api:5008'
 url_base_analitica = 'http://analitica-microservice:5005'
 
 # Get URL to production
@@ -111,9 +111,20 @@ def get_incident(id, client):
     else: 
         return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_INCIDENT)
 
+@app.route('/incidents/public/get_incident/<id>', methods=['GET'])
+def get_incident_public(id):
+    if incidents_on_local:
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_SYNC)
+    else: 
+        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_INCIDENT)
+
 @app.route('/incidents/search_incident', methods=['POST'])
 def search_incident():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/search_incident", COMUNNICATION_SYNC)
+
+@app.route('/incidents/public/search_incident', methods=['POST'])
+def search_incident_public():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/search_incident", COMUNNICATION_SYNC)
 
 @app.route('/incidents/create_user', methods=['POST'])
 def create_user():
@@ -130,16 +141,20 @@ def create_incident():
 def update_incident_response():
     return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_response", COMUNNICATION_SYNC)
 
+@app.route('/incidents/update_incident_agent', methods=['PUT'])
+def update_incident_agent():
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/update_incident_agent", COMUNNICATION_SYNC)
+
 # --------------------------------------------
 # Routes to chatbot api
 #---------------------------------------------
-@app.route('/getnode', methods=['GET'])
+@app.route('/chatbot/getnode', methods=['GET'])
 def get_node():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getnode", COMUNNICATION_SYNC)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/chatbot/getnode", COMUNNICATION_SYNC)
 
-@app.route('/getsolutions', methods=['GET'])
+@app.route('/chatbot/getsolutions', methods=['GET'])
 def get_solutions():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/getsolutions", COMUNNICATION_SYNC)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_chatbot_api + "/chatbot/getsolutions", COMUNNICATION_SYNC)
 
 # --------------------------------------------
 # Routes to microservice analitica de datos
