@@ -3,6 +3,8 @@ import requests
 from .queue import Queue
 import logging
 import os
+from.errors import Unauthorized, Forbidden
+from urllib.parse import urlparse
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger(__name__)
@@ -23,38 +25,47 @@ class ExceptionHandling():
         }
         return data_response
 
-    def communicate_to_incidents(self, event, endpoint):
+    def validate_access(self, headers, endpoint):
+        headers = dict(request.headers)
+        uri = urlparse(endpoint).path
+        url_base_auth_api = 'http://auth-api-microservice:5002'
+        if os.environ.get("URL_BASE_AUTH_API"):
+            url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
+
+        create_auth_api_url = f'{url_base_auth_api}/auth/verify-authorization?uri={uri}'
+        headers["X-Abcall-Transaction"] = os.environ.get("API_KEY_AUTH_API")
+        response = requests.get(create_auth_api_url, headers=headers)
+
+        if response.status_code == 403:
+            raise Forbidden(response.json().get("message"))
+        
+        if response.status_code == 401:
+            raise Unauthorized(response.json().get("message"))
+
+        data = response.json()
+        if data:
+            headers["X-Abcall-Company"] = data.get("company")
+            headers["X-Abcall-Rol"] = data.get("rol")
+            headers["X-Abcall-Plan"] = data.get("plan")
+
+        if response.headers:
+            headers["X-Abcall-Transaction"] = response.headers.get("X-Abcall-Transaction")
+
+        return headers
+
+    def communicate_to_incidents_queue(self, event, endpoint):
         method = request.method
         params = request.args
-
         try:
             body = request.get_json()
         except Exception as e:
             body = {}
 
-        if method == "GET":
-            response = requests.request(
-                method = method,
-                url = endpoint,
-                headers = request.headers,
-                data = request.get_data(),
-                params = params,
-                json = body,
-                timeout=20
-            )
-            logger.info(f"Response: {response}")
-        else:
-            response = Queue.send_message_queue(self, event, endpoint, method, params, body)    
-            logger.info(f"Response: {response}")
-            return jsonify(response)
-        status_code = response.status_code
+        response = Queue.send_message_queue(self, event, endpoint, method, params, body)    
+        logger.info(f"Response: {response}")
+        return jsonify(response)
 
-        if status_code >= 400:
-            response.raise_for_status()
-        
-        return response
-
-    def communicate_sync_microservice(self, endpoint):
+    def communicate_sync_microservice(self, endpoint, headers):
         method = request.method
         params = request.args
 
@@ -66,7 +77,7 @@ class ExceptionHandling():
         response = requests.request(
             method = method,
             url = endpoint,
-            headers = request.headers,
+            headers = headers,
             data = request.get_data(),
             params = params,
             json = body,
@@ -77,12 +88,13 @@ class ExceptionHandling():
 
     def communicate_to_microservice(self, endpoint, communication, event=None):
         try:
+            headers = self.validate_access(self, request.headers, endpoint)
             if communication == "sync":
-                response = self.communicate_sync_microservice(self, endpoint)
+                response = self.communicate_sync_microservice(self, endpoint, headers)
                 return json.loads(response.content), response.status_code
 
             if communication == "async_incidents":
-                response = self.communicate_to_incidents(self, event, endpoint)
+                response = self.communicate_to_incidents_queue(self, event, endpoint)
                 # If response is a requests.Response object
                 if isinstance(response, requests.Response):
                     return response.json(), response.status_code
@@ -100,6 +112,18 @@ class ExceptionHandling():
             logger.info("Log error: " + str(e))
             status_code = 504
             response = jsonify(self.get_response(status_code, message_error))
+            return response, status_code
+        
+        except Unauthorized as e:
+            logger.info("Log error: " + str(e))
+            status_code = 401
+            response = jsonify(self.get_response(status_code, str(e)))
+            return response, status_code
+        
+        except Forbidden as e:
+            logger.info("Log error: " + str(e))
+            status_code = 403
+            response = jsonify(self.get_response(status_code, str(e)))
             return response, status_code
         
         except Exception as e:
