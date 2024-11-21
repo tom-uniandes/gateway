@@ -1,8 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 import os
 import logging
-from gateway.errors import ApiError
 
 from gateway import \
     ExceptionHandling
