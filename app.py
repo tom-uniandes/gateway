@@ -79,14 +79,6 @@ def get_verify_authorization():
 # --------------------------------------------
 # Routes to microservice manejo clientes
 #---------------------------------------------    
-@app.route('/clients/create_client', methods=['POST'])
-def post_create_client():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + "/clients/create_client", COMUNNICATION_SYNC)
- 
-@app.route('/clients/get_client/<id>', methods=['GET'])
-def get_client(id):
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/get_client/{id}", COMUNNICATION_SYNC)
-
 @app.route('/clients/update_client_plan', methods=['PUT'])
 def update_client_plan():
      return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/update_client_plan", COMUNNICATION_SYNC)

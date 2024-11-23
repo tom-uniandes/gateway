@@ -33,7 +33,7 @@ class ExceptionHandling():
             url_base_auth_api = os.environ.get("URL_BASE_AUTH_API")
 
         create_auth_api_url = f'{url_base_auth_api}/auth/verify-authorization?uri={uri}'
-        headers["X-Abcall-Transaction"] = os.environ.get("API_KEY_AUTH_API")
+        headers["X-Abcall-Transaction-Auth"] = os.environ.get("API_KEY_AUTH_API")
         response = requests.get(create_auth_api_url, headers=headers)
 
         if response.status_code == 403:
