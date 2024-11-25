@@ -18,6 +18,7 @@ class ExceptionHandling():
         response = jsonify(self.get_response(404,"Resource not found, please contact with support"))
         return response, 404
 
+    @staticmethod
     def get_response(status_code, message):
         data_response = {
             "message": message,
