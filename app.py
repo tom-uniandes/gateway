@@ -6,6 +6,10 @@ import logging
 from gateway import \
     ExceptionHandling
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 app = Flask(__name__)
 
 app_context = app.app_context()
@@ -75,14 +79,6 @@ def get_verify_authorization():
 # --------------------------------------------
 # Routes to microservice manejo clientes
 #---------------------------------------------    
-@app.route('/clients/create_client', methods=['POST'])
-def post_create_client():
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + "/clients/create_client", COMUNNICATION_SYNC)
- 
-@app.route('/clients/get_client/<id>', methods=['GET'])
-def get_client(id):
-    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/get_client/{id}", COMUNNICATION_SYNC)
-
 @app.route('/clients/update_client_plan', methods=['PUT'])
 def update_client_plan():
      return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_manejo_clientes + f"/clients/update_client_plan", COMUNNICATION_SYNC)
@@ -92,31 +88,20 @@ def update_client_plan():
 #---------------------------------------------
 @app.route('/incidents/get_incidents/<client>', methods=['GET'])
 def get_incidents(client):
-    if incidents_on_local:
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{client}", COMUNNICATION_SYNC)
-    else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{client}", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incidents/{client}", COMUNNICATION_SYNC)
 
 @app.route('/incidents/get_user/<id>/<client>', methods=['GET'])
 def get_user(id, client):
-    if incidents_on_local:
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_user/{id}/{client}", COMUNNICATION_SYNC)
-    else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_user/{id}/{client}", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_user/{id}/{client}", COMUNNICATION_SYNC)
+
 
 @app.route('/incidents/get_incident/<id>/<client>', methods=['GET'])
 def get_incident(id, client):
-    if incidents_on_local:
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_SYNC)
-    else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/get_incident/{id}/{client}", COMUNNICATION_SYNC)
 
 @app.route('/incidents/public/get_incident/<id>', methods=['GET'])
 def get_incident_public(id):
-    if incidents_on_local:
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_SYNC)
-    else: 
-        return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_INCIDENT)
+    return ExceptionHandling.communicate_to_microservice(ExceptionHandling, url_base_incidents + f"/incidents/public/get_incident/{id}", COMUNNICATION_SYNC)
 
 @app.route('/incidents/search_incident', methods=['POST'])
 def search_incident():
