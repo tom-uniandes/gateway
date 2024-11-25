@@ -27,11 +27,11 @@ jobs:
           pip install pipenv
           pip install coverage
           pipenv install
-      #- name: pruebas+coverage
-      #  id: pruebas
-      #  run: |
-      #    pipenv run pytest --cov=src tests/
-      #    python -m coverage xml -i
+      - name: pruebas+coverage
+        id: pruebas
+        run: |
+          pipenv run pytest --cov=gateway
+          python -m coverage xml -i
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
